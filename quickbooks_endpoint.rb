@@ -108,7 +108,7 @@ class QuickbooksEndpoint < EndpointBase::Sinatra::Base
     hash.each do |key, value|
       value.is_a?(Hash) ? format_hash!(value) :
       value.is_a?(Array) ? value.each do |item| format_hash!(item) end :
-      value.is_a?(String) ? hash[key] = value.gsub(/([0-9a-f]{8})-([0-9a-f]{4})-([0-9a-f]{4})-([0-9a-f]{4})-([0-9a-f]{12})/, '\1\-\2\-\3\-\4'):
+      value.is_a?(String) ? hash[key] = value.gsub(/([0-9a-f]{8})-([0-9a-f]{4})-([0-9a-f]{4})-([0-9a-f]{4})-([0-9a-f]{12})/, '\1\2\3\4'):
       nil
     end
   end
