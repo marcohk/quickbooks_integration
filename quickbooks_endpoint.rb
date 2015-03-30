@@ -26,16 +26,22 @@ class QuickbooksEndpoint < EndpointBase::Sinatra::Base
   end
 
   post '/add_product' do
+    format_hash!(@payload)
+
     code, summary = QBIntegration::Product.new(@payload, @config).import
     result code, summary
   end
 
   post '/update_product' do
+    format_hash!(@payload)
+
     code, summary = QBIntegration::Product.new(@payload, @config).import
     result code, summary
   end
 
   post '/add_order' do
+    format_hash!(@payload)
+
     begin
       code, summary = QBIntegration::Order.new(@payload, @config).create
       result code, summary
@@ -45,21 +51,29 @@ class QuickbooksEndpoint < EndpointBase::Sinatra::Base
   end
 
   post '/update_order' do
+    format_hash!(@payload)
+
     code, summary = QBIntegration::Order.new(@payload, @config).update
     result code, summary
   end
 
   post '/cancel_order' do
+    format_hash!(@payload)
+
     code, summary = QBIntegration::Order.new(@payload, @config).cancel
     result code, summary
   end
 
   post '/add_return' do
+    format_hash!(@payload)
+
     code, summary = QBIntegration::ReturnAuthorization.new(@payload, @config).create
     result code, summary
   end
 
   post '/update_return' do
+    format_hash!(@payload)
+
     code, summary = QBIntegration::ReturnAuthorization.new(@payload, @config).update
     result code, summary
   end
@@ -89,4 +103,14 @@ class QuickbooksEndpoint < EndpointBase::Sinatra::Base
       env['sinatra.error'].message
     end
   end
+
+  def format_hash!(hash)
+    hash.each do |key, value|
+      value.is_a?(Hash) ? format_hash!(value) :
+      value.is_a?(Array) ? value.each do |item| format_hash!(item) end :
+      value.is_a?(String) ? hash[key] = value.gsub(/([0-9a-f]{8})-([0-9a-f]{4})-([0-9a-f]{4})-([0-9a-f]{4})-([0-9a-f]{12})/, '\1\-\2\-\3\-\4'):
+      nil
+    end
+  end
+
 end
