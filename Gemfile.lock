@@ -20,6 +20,7 @@ GIT
 GEM
   remote: https://www.rubygems.org/
   specs:
+    Ascii85 (1.0.2)
     activemodel (3.2.16)
       activesupport (= 3.2.16)
       builder (~> 3.0.0)
@@ -135,6 +136,7 @@ GEM
       kgio (~> 2.6)
       rack
       raindrops (~> 0.7)
+    uuidtools (2.1.5)
     vcr (2.9.3)
     webmock (1.19.0)
       addressable (>= 2.3.6)
@@ -144,6 +146,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  Ascii85 (~> 1.0.2)
   capistrano
   dotenv
   endpoint_base!
@@ -164,5 +167,6 @@ DEPENDENCIES
   tilt-jbuilder
   tzinfo
   unicorn
+  uuidtools
   vcr
   webmock

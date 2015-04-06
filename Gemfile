@@ -9,6 +9,8 @@ gem 'honeybadger'
 gem 'quickbooks-ruby', github: 'ruckus/quickbooks-ruby'
 gem 'tzinfo'
 gem 'capistrano'
+gem 'uuidtools'
+gem 'Ascii85', '~> 1.0.2'
 
 group :development do
   gem 'rake'

@@ -1,3 +1,5 @@
+require "uuidtools"
+require 'ascii85'
 require_relative 'lib/qb_integration'
 
 if File.exists? File.join(File.expand_path(File.dirname(__FILE__)), '.env')
@@ -108,9 +110,14 @@ class QuickbooksEndpoint < EndpointBase::Sinatra::Base
     hash.each do |key, value|
       value.is_a?(Hash) ? format_hash!(value) :
       value.is_a?(Array) ? value.each do |item| format_hash!(item) end :
-      value.is_a?(String) ? hash[key] = value.gsub(/([0-9a-f]{8})-([0-9a-f]{4})-([0-9a-f]{4})-([0-9a-f]{4})-([0-9a-f]{12})/, '\1\2\3\4'):
-      nil
+      value.is_a?(String) && value =~ /([0-9a-f]{8})-([0-9a-f]{4})-([0-9a-f]{4})-([0-9a-f]{4})-([0-9a-f]{12})/ ?
+        hash[key] = short_uuid(value) : nil
     end
+  end
+
+  def short_uuid(uuid)
+    bytes = UUIDTools::UUID.parse(uuid).raw
+    Ascii85.encode(bytes)[2...-2].gsub(/-/,'\\-')
   end
 
 end
