@@ -54,7 +54,9 @@ module QBIntegration
           sales_receipt.bill_address = Address.build order["billing_address"]
 
           sales_receipt.payment_method_id = payment_method_service.matching_payment.id
-          sales_receipt.customer_id = customer_service.find_or_create.id
+
+          customer = customer_service.find_or_create
+          sales_receipt.customer_id = customer.id unless customer == nil
 
           # Associated as both DepositAccountRef and IncomeAccountRef
           #

@@ -10,6 +10,8 @@ module QBIntegration
       end
 
       def find_or_create
+        return nil unless order["billing_address"]["firstname"]
+
         name = use_web_orders? ? "Web Orders" : nil
         fetch_by_display_name(name) || create
       end
